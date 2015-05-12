@@ -1,0 +1,23 @@
+{
+  "name": "lukzgois/sanitizer",
+  "description": "A package to sanitize data.",
+  "keywords": ["laravel", "sanitizer"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Lucas Padilha Gois",
+      "email": "lucaspgois@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0"
+  },
+  "require-dev": {
+    "phpspec/phpspec": "~2.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Lukzgois\\Sanitizer\\": "src/"
+    }
+  }
+}

@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: Lukzgois\Sanitizer
+        psr4_prefix: Lukzgois\Sanitizer
+        src_path: src
