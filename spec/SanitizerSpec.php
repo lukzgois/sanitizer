@@ -63,7 +63,7 @@ class SanitizerSpec extends ObjectBehavior
 		)->shouldReturn(['phone' => '  5555555555']);
 	}
 
-	public function it_allows_the_custom_class_optionally_have_options()
+	public function it_allows_the_custom_class_and_methods_optionally_have_options()
 	{
 		$this->sanitize(
 			['number' => '123456'],
@@ -74,6 +74,11 @@ class SanitizerSpec extends ObjectBehavior
 			['number' => '123456'],
 			['number' => 'spec\Lukzgois\Sanitizer\OptionsSanitizer@custom:2,3']
 		)->shouldReturn(['number' => '345']);
+
+		$this->sanitize(
+			['number' => '99'],
+			['number' => 'options:100']
+		)->shouldReturn(['number' => 100]);
 	}
 
 	public function it_set_a_default_value_for_a_field()
@@ -105,6 +110,11 @@ class TestSanitizer extends \Lukzgois\Sanitizer\Sanitizer {
 	public function sanitizePhone($value)
 	{
 		return str_replace('-', '', $value);
+	}
+
+	public function sanitizeOptions($value, $min)
+	{
+		return $value < $min ? (int)$min : (int)$value;
 	}
 }
 

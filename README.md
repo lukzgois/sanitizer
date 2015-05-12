@@ -59,7 +59,6 @@ Utilizar o método sanitize com o array de dados a ser validado:
 Você pode sobrescrever as regras de higienização passando um array como segundo parâmetro da função sanitize():
 
 ```php
-
     $sanitizer->sanitize($data, ['name' => 'strtoupper']);
 ```
 
@@ -126,6 +125,9 @@ Também é possível passar argumentos para as funções personalizadas da segui
     
     }
 ```
+
+*obs: Você também pode passar argumentos para os métodos personalizados.*
+
 
 Por padrão, o package conta com uma função customizada, a função ```default```, que serve para definir um valor padrão para um campo caso este venha nulo ou vazio, por exemplo: 
 
