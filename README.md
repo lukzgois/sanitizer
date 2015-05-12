@@ -6,6 +6,9 @@ Muitas vezes é necessário uma camada intermediária na aplicação, com o obje
 estes geralmente provenientes de formulários do usuário. Por exemplo, você deseja realizar a limpeza dos espaços em
 branco dos campos do formulário antes de enviar os dados para o banco de dados.
 
+Este pacote tem como base a excelente aula do Jeffrey Way sobre Sanitizers.
+[https://github.com/laracasts/Sanitizers-and-PHPSpec](https://github.com/laracasts/Sanitizers-and-PHPSpec)
+
 # Instalação
 
 O pacote pode ser instalado através do <a href="https://getcomposer.org/" target="_blank">composer</a>.
