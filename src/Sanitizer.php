@@ -103,12 +103,17 @@ abstract class Sanitizer {
 		// If not, so we'll use a normal function
 		$method = 'sanitize' . ucwords($sanitizer[0]);
 		$value = method_exists($this, $method)
-			? call_user_func([$this, $method], $value)
-			: call_user_func($sanitizer[0], $value);
+			? call_user_func_array([$this, $method], $options)
+			: call_user_func_array($sanitizer[0], $options);
 
 		return $value;
 	}
 
+	/**
+	 * @param $value
+	 * @param $sanitizer
+	 * @return mixed
+	 */
 	private function applyDefaultValue($value, $sanitizer)
 	{
 		return (isset($value))

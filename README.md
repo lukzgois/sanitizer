@@ -6,6 +6,9 @@ Muitas vezes é necessário uma camada intermediária na aplicação, com o obje
 estes geralmente provenientes de formulários do usuário. Por exemplo, você deseja realizar a limpeza dos espaços em
 branco dos campos do formulário antes de enviar os dados para o banco de dados.
 
+Este pacote tem como base a excelente aula do Jeffrey Way sobre Sanitizers.
+[https://github.com/laracasts/Sanitizers-and-PHPSpec](https://github.com/laracasts/Sanitizers-and-PHPSpec)
+
 # Instalação
 
 O pacote pode ser instalado através do <a href="https://getcomposer.org/" target="_blank">composer</a>.
@@ -56,7 +59,6 @@ Utilizar o método sanitize com o array de dados a ser validado:
 Você pode sobrescrever as regras de higienização passando um array como segundo parâmetro da função sanitize():
 
 ```php
-
     $sanitizer->sanitize($data, ['name' => 'strtoupper']);
 ```
 
@@ -123,6 +125,9 @@ Também é possível passar argumentos para as funções personalizadas da segui
     
     }
 ```
+
+*obs: Você também pode passar argumentos para os métodos personalizados.*
+
 
 Por padrão, o package conta com uma função customizada, a função ```default```, que serve para definir um valor padrão para um campo caso este venha nulo ou vazio, por exemplo: 
 
