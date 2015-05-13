@@ -23,7 +23,7 @@ ou se preferir, adicione o seguinte trecho manualmente:
 ```json
 {
 	"require": {
-		"lukzgois/sanitizer" : "0.1.x"
+		"lukzgois/sanitizer" : "0.2.x"
 	}
 }
 ```
@@ -33,27 +33,31 @@ ou se preferir, adicione o seguinte trecho manualmente:
 Criar uma classe extendendo ```Lukzgois\Sanitizer\Sanitizer```
 
 ```php
-    use Lukzgois\Sanitizer\Sanitizer;
+<?php
+    
+use Lukzgois\Sanitizer\Sanitizer;
 
-    class SanitizeRequest extends Sanitizer {
- 
-        public function rules()
-        {
-            return [
-                'first_name' => 'trim|ucword',
-                'last_name' => 'trim|ucwords'
-            ];
-        }
+class SanitizeRequest extends Sanitizer {
+
+    public function rules()
+    {
+        return [
+            'first_name' => 'trim|ucword',
+            'last_name' => 'trim|ucwords'
+        ];
     }
+}
 ```
 
 Utilizar o método sanitize com o array de dados a ser validado:
 
 ```php
-    $data = ['name' => '  john doe '];
-    $sanitizer = new SanitizeRequest();
-    $sanitizedData = $sanitizer->sanitize($data);
-    var_dump($sanitizedData); // ['name' => 'John Doe']
+<?php
+
+$data = ['name' => '  john doe '];
+$sanitizer = new SanitizeRequest();
+$sanitizedData = $sanitizer->sanitize($data);
+var_dump($sanitizedData); // ['name' => 'John Doe']
 ```
 
 Você pode sobrescrever as regras de higienização passando um array como segundo parâmetro da função sanitize():
@@ -65,65 +69,71 @@ Você pode sobrescrever as regras de higienização passando um array como segun
 Para utilizar métodos personalizados na classe basta criá-los com o prefixo "sanitize":
 
 ```php
-    use Lukzgois\Sanitizer\Sanitizer;
+<?php
 
-    class SanitizeRequest extends Sanitizer {
- 
-        public function rules()
-        {
-            return [
-                'phone' => 'phone',
-            ];
-        }
-        
-        public function sanitizePhone($value)
-        {
-        	return str_replace('-','', $value);
-        }
+use Lukzgois\Sanitizer\Sanitizer;
+
+class SanitizeRequest extends Sanitizer {
+
+    public function rules()
+    {
+        return [
+            'phone' => 'phone',
+        ];
     }
+    
+    public function sanitizePhone($value)
+    {
+        return str_replace('-','', $value);
+    }
+}
 ```
 
 Você tambem pode utilizar outras classes para realizar a higienização, basta para isso indicar o caminho completo para essa classe. Por padrão o package irá procurar pela função sanitize() nessa classe. Para utilizar outra função basta indicar com um ```@``` após o nome da classe:
 
 ```php
-    use Lukzgois\Sanitizer\Sanitizer;
+<?php
 
-    class SanitizeRequest extends Sanitizer {
- 
-        public function rules()
-        {
-            return [
-                'first_name' => '\App\Sanitizers\NameSanitizer', // sanitize()
-                'last_name' => '\App\Sanitizers\NameSanitizer@lastName' // lastName()
-            ];
-        }
+use Lukzgois\Sanitizer\Sanitizer;
+
+class SanitizeRequest extends Sanitizer {
+
+    public function rules()
+    {
+        return [
+            'first_name' => '\App\Sanitizers\NameSanitizer', // sanitize()
+            'last_name' => '\App\Sanitizers\NameSanitizer@lastName' // lastName()
+        ];
     }
+}
 ```
 
 Também é possível passar argumentos para as funções personalizadas da seguinte maneira:
 
 ```php
-	use Lukzgois\Sanitizer\Sanitizer;
+<?php
 
-    class SanitizeRequest extends Sanitizer {
- 
-        public function rules()
-        {
-            return [
-                'first_name' => '\App\Sanitizers\MinValueSanitizer:100', // sanitize()
-            ];
-        }
+use Lukzgois\Sanitizer\Sanitizer;
 
+class SanitizeRequest extends Sanitizer {
+
+    public function rules()
+    {
+        return [
+            'first_name' => '\App\Sanitizers\MinValueSanitizer:100', // sanitize()
+        ];
     }
-    
-    class \App\Sanitizers\MinValueSanitizer {
-    
-    	public function sanitize($value, $min)
-        {
-        	return $value < $min ? $min : $value;
-        }
-    
+
+}
+
+class \App\Sanitizers\MinValueSanitizer {
+
+    public function sanitize($value, $min)
+    {
+        return $value < $min ? $min : $value;
     }
+
+}
 ```
 
 *obs: Você também pode passar argumentos para os métodos personalizados.*
@@ -133,25 +143,64 @@ Por padrão, o package conta com uma função customizada, a função ```default
 
 
 ```php
-	use Lukzgois\Sanitizer\Sanitizer;
+<?php
 
-    class SanitizeRequest extends Sanitizer {
- 
-        public function rules()
-        {
-            return [
-            	'name' => 'trim|ucwords',
-                'company' => 'default:1'
-            ];
-        }
+use Lukzgois\Sanitizer\Sanitizer;
 
+class SanitizeRequest extends Sanitizer {
+
+    public function rules()
+    {
+        return [
+            'name' => 'trim|ucwords',
+            'company' => 'default:1'
+        ];
     }
+
+}
     
 ```
 
 ```php
-    $data = ['name' => '  john doe '];
-    $sanitizer = new SanitizeRequest();
-    $sanitizedData = $sanitizer->sanitize($data);
-    var_dump($sanitizedData); // ['name' => 'John Doe', 'company' => 1]
+<?php
+
+$data = ['name' => '  john doe '];
+$sanitizer = new SanitizeRequest();
+$sanitizedData = $sanitizer->sanitize($data);
+var_dump($sanitizedData); // ['name' => 'John Doe', 'company' => 1]
+```
+
+# Generator para Laravel 5
+
+Caso você esteja utilizando Laravel 5 pode utilizar a ferramenta ```artisan``` para criar o sanitizer automaticamente.
+
+Para isso basta adicionar no arquivo ```app/config/app.php```  na seção de **providers** a seguinte linha:
+
+```php
+'Lukzgois\Sanitizer\Laravel\SanitizerServiceProvider',
+```
+
+Feito isso basta utilizar o comando da seguinte maneira:
+
+```shell
+php artisan make:sanitizer CreateUserSanitizer
+```
+
+Um novo sanitizer será criado na pasta ```app/Sanitizers``` com o seguinte conteúdo:
+
+```php
+<?php namespace App\Sanitizers;
+
+use Lukzgois\Sanitizer\Sanitizer;
+
+class CreateUserSanitizer extends Sanitizer {
+
+    public function rules()
+    {
+        return [
+        ];
+    }
+
+}
+
 ```
