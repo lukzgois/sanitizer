@@ -1,0 +1,13 @@
+<?php namespace {{namespace}};
+
+use Lukzgois\Sanitizer\Sanitizer;
+
+class {{class}} extends Sanitizer {
+
+    public function rules()
+    {
+        return [
+        ];
+    }
+
+}
