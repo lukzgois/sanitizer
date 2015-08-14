@@ -170,6 +170,51 @@ $sanitizedData = $sanitizer->sanitize($data);
 var_dump($sanitizedData); // ['name' => 'John Doe', 'company' => 1]
 ```
 
+## Cast Sanitizer
+
+O higienizador "cast" permite transformar o tipo de uma variável, por exemplo, um valor recebido como string pode ser transformado em um inteiro. São suportados os tipos: *string, integer, boolean e float*.
+
+```php
+<?php
+
+use Lukzgois\Sanitizer\Sanitizer;
+
+class SanitizeRequest extends Sanitizer {
+
+    public function rules()
+    {
+        return [
+            'age' => 'cast:integer',
+        ];
+    }
+
+}
+    
+```
+
+```php
+<?php
+
+$data = ['age' => '25'];
+$sanitizer = new SanitizeRequest();
+$sanitizedData = $sanitizer->sanitize($data);
+var_dump($sanitizedData); // ['age' => (int)25]
+```
+
+Por padrão este higienizador é executado mesmo que o valor enviado seja ```null```. Caso você deseje que ele ignore os valores ```null``` basta definir o terceiro argumento como ```false```.
+
+```php
+
+    public function rules()
+    {
+        return [
+            'age' => 'cast:integer:false',
+        ];
+    }
+    
+```
+
+
 # Generator para Laravel 5
 
 Caso você esteja utilizando Laravel 5 pode utilizar a ferramenta ```artisan``` para criar o sanitizer automaticamente.
