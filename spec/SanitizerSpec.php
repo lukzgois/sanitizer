@@ -126,6 +126,22 @@ class SanitizerSpec extends ObjectBehavior
 			['street_number' => 'cast:string']
 		)->shouldReturn(['street_number' => '134']);	
 	}
+
+	public function it_dont_casts_if_the_value_is_null()
+	{
+		$this->sanitize(
+			['name' => null],
+			['name' => 'cast:integer:false']
+		)->shouldReturn(['name' => null]);
+	}
+
+	public function it_casts_even_the_value_is_null()
+	{
+		$this->sanitize(
+			['checked' => null],
+			['checked' => 'cast:integer']
+		)->shouldReturn(['checked' => 0]);
+	}
 }
 
 

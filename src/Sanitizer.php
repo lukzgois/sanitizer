@@ -52,6 +52,7 @@ abstract class Sanitizer {
 	{
 		foreach ($this->splitSanitizers($sanitizers) as $sanitizer)
 		{
+
 			if (strpos($sanitizer, 'default:') !== false)
 			{
 				$data[$field] = $this->applyDefaultValue($data[$field], $sanitizer);
@@ -129,10 +130,15 @@ abstract class Sanitizer {
 
 	public function applyCastSanitizer($value, $sanitizer)
 	{
-		$type = explode(':', $sanitizer)[1];
+		$parts = explode(':', $sanitizer); 
+		$type = $parts[1];
+		$castOnNull = isset($parts[2]) ? $parts[2] : true;
+
+		if ($value === null && $castOnNull === "false")
+			return null;
 
 		settype($value, $type);
-		
+
 		return $value;
 	}
 }
