@@ -94,6 +94,38 @@ class SanitizerSpec extends ObjectBehavior
 		)->shouldReturn(['name' => '123']);
 
 	}
+
+	public function it_cast_a_value_to_an_integer()
+	{
+		$this->sanitize(
+			['age' => '13asf'],
+			['age' => 'cast:integer']
+		)->shouldReturn(['age' => 13]);
+	}
+
+	public function it_casts_a_value_to_a_double()
+	{
+		$this->sanitize(
+			['age' => '13'],
+			['age' => 'cast:double']
+		)->shouldReturn(['age' => 13.00]);	
+	}
+
+	public function it_casts_a_value_to_a_boolean()
+	{
+		$this->sanitize(
+			['checked' => '0'],
+			['checked' => 'cast:boolean']
+		)->shouldReturn(['checked' => false]);	
+	}
+
+	public function it_casts_a_value_to_a_string()
+	{
+		$this->sanitize(
+			['street_number' => 134],
+			['street_number' => 'cast:string']
+		)->shouldReturn(['street_number' => '134']);	
+	}
 }
 
 

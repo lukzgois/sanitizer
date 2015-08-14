@@ -58,6 +58,12 @@ abstract class Sanitizer {
 				continue;
 			}
 
+			if (strpos($sanitizer, 'cast:') !== false)
+			{
+				$data[$field] = $this->applyCastSanitizer($data[$field], $sanitizer);
+				continue;
+			}
+
 			if (isset($data[$field]))
 				$data[$field] = $this->applySanitizerTo($data[$field], $sanitizer);
 		}
@@ -119,5 +125,14 @@ abstract class Sanitizer {
 		return (isset($value))
 			? $value
 			: explode(':', $sanitizer)[1];
+	}
+
+	public function applyCastSanitizer($value, $sanitizer)
+	{
+		$type = explode(':', $sanitizer)[1];
+
+		settype($value, $type);
+		
+		return $value;
 	}
 }
