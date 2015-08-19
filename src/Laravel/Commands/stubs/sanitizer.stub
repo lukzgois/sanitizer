@@ -1,8 +1,8 @@
-<?php namespace {{namespace}};
+<?php namespace DummyNamespace;
 
 use Lukzgois\Sanitizer\Sanitizer;
 
-class {{class}} extends Sanitizer {
+class DummyClass extends Sanitizer {
 
     public function rules()
     {
